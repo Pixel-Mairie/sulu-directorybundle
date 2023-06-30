@@ -1,0 +1,49 @@
+{
+  "name": "pixelmairie/sulu-directorybundle",
+  "type": "sulu-bundle",
+  "description": "Manage a directory for Sulu",
+  "keywords": [
+    "sulu",
+    "suluCms",
+    "news",
+    "directory"
+  ],
+  "homepage": "https://github.com/Pixel-Developpement/sulu-directory-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Pixel Developpement"
+    }
+  ],
+  "require": {
+    "php": "^8.0",
+    "sulu/sulu": "^2.4",
+    "symfony/config": "^4.4 || ^5.0",
+    "symfony/dependency-injection": "^4.4 || ^5.0",
+    "symfony/framework-bundle": "^4.4 || ^5.0",
+    "symfony/http-foundation": "^4.4 || ^5.0",
+    "symfony/http-kernel": "^4.4 || ^5.0"
+  },
+  "require-dev": {
+    "dantleech/phpcr-migrations-bundle": "^1.3",
+    "jackalope/jackalope-doctrine-dbal": "^1.3.2",
+    "phpstan/extension-installer": "^1.2",
+    "phpstan/phpstan": "^1.9",
+    "phpstan/phpstan-symfony": "^1.2",
+    "symplify/easy-coding-standard": "^11.1"
+  },
+  "scripts": {
+
+  },
+  "autoload": {
+    "psr-4": {
+      "Pixel\\DirectoryBundle\\": "src"
+    }
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "phpstan/extension-installer": true
+    }
+  }
+}

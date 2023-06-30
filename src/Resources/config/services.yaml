@@ -1,0 +1,15 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+  Pixel\DirectoryBundle\Controller\Website\:
+    resource: '../../Controller/Website'
+
+  Pixel\DirectoryBundle\Repository\:
+    resource: '../../Repository'
+
+  Pixel\DirectoryBundle\Twig\SettingsExtension:
+    public: false
+    autowire: true
+    tags:
+      - { name: twig.extension }

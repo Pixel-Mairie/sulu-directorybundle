@@ -1,0 +1,150 @@
+<?xml version="1.0" ?>
+<form xmlns="http://schemas.sulu.io/template/template"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/form-1.0.xsd"
+>
+    <key>card_details</key>
+    <properties>
+        <property name="name" colspan="8" type="text_line" mandatory="true">
+            <meta>
+                <title>card.name</title>
+            </meta>
+            <tag name="sulu.rlp.part"/>
+        </property>
+
+        <property name="type" colspan="4" type="single_category_selection" mandatory="true">
+            <meta>
+                <title>card.type</title>
+            </meta>
+            <params>
+                <param name="request_parameters" type="collection">
+                    <param name="rootKey" value="types"/>
+                </param>
+            </params>
+        </property>
+        <property name="routePath" type="route" mandatory="true" colspan="12">
+            <meta>
+                <title>sulu_admin.url</title>
+            </meta>
+
+            <params>
+                <param name="entity_class" value="Pixel\DirectoryBundle\Entity\Card"/>
+                <param name="route_schema" value="/annuaire/{implode('-', object)}"/>
+            </params>
+        </property>
+        <property name="logo" colspan="6" type="single_media_selection">
+            <meta>
+                <title>card.logo</title>
+            </meta>
+            <params>
+                <param name="types" value="image"/>
+            </params>
+        </property>
+
+        <property name="category" colspan="6" type="single_category_selection" mandatory="true">
+            <meta>
+                <title>card.category</title>
+            </meta>
+            <params>
+                <param name="request_parameters" type="collection">
+                    <param name="rootKey" value="categories"/>
+                </param>
+            </params>
+        </property>
+
+        <property name="medias" type="media_selection" colspan="6">
+            <meta>
+                <title>card.medias</title>
+            </meta>
+            <params>
+                <param name="types" value="image"/>
+            </params>
+        </property>
+        <property name="pdfs" type="media_selection" colspan="6">
+            <meta>
+                <title>card.pdfs</title>
+            </meta>
+            <params>
+                <param name="types" value="document"/>
+            </params>
+        </property>
+        <property name="youtubeId" type="text_line">
+            <meta>
+                <title>card.youtubeId</title>
+            </meta>
+        </property>
+        <property name="url" type="url" colspan="4">
+            <meta>
+                <title>card.website</title>
+            </meta>
+            <params>
+                <param name="schemes" type="collection">
+                    <param name="http://"/>
+                    <param name="https://"/>
+                </param>
+            </params>
+        </property>
+        <property name="email" type="text_line" colspan="4">
+            <meta>
+                <title>card.email</title>
+            </meta>
+        </property>
+        <property name="phoneNumber" type="text_line" colspan="4">
+            <meta>
+                <title>card.phoneNumber</title>
+            </meta>
+        </property>
+
+        <property name="facebook" type="url" colspan="3">
+            <meta>
+                <title>card.facebook</title>
+            </meta>
+            <params>
+                <param name="schemes" type="collection">
+                    <param name="https://"/>
+                </param>
+            </params>
+        </property>
+        <property name="instagram" type="url" colspan="3">
+            <meta>
+                <title>card.instagram</title>
+            </meta>
+            <params>
+                <param name="schemes" type="collection">
+                    <param name="https://"/>
+                </param>
+            </params>
+        </property>
+        <property name="twitter" type="url" colspan="3">
+            <meta>
+                <title>card.twitter</title>
+            </meta>
+            <params>
+                <param name="schemes" type="collection">
+                    <param name="https://"/>
+                </param>
+            </params>
+        </property>
+        <property name="linkedin" type="url" colspan="3">
+            <meta>
+                <title>card.linkedin</title>
+            </meta>
+            <params>
+                <param name="schemes" type="collection">
+                    <param name="https://"/>
+                </param>
+            </params>
+        </property>
+
+        <property name="description" colspan="12" type="text_editor">
+            <meta>
+                <title>card.description</title>
+            </meta>
+        </property>
+        <property name="location" type="location" >
+            <meta>
+                <title>card.location</title>
+            </meta>
+        </property>
+    </properties>
+</form>
