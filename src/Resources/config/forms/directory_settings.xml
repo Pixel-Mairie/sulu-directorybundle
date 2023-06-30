@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<form xmlns="http://schemas.sulu.io/template/template"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/form-1.0.xsd"
+>
+    <key>directory_settings</key>
+    <properties>
+        <property name="location" type="location">
+            <meta>
+                <title>directory_settings.localisation</title>
+            </meta>
+        </property>
+        <property name="defaultImage" type="single_media_selection">
+            <meta>
+                <title>directory_settings.defaultImage</title>
+            </meta>
+        </property>
+    </properties>
+</form>
