@@ -16,24 +16,16 @@ use Symfony\Component\HttpFoundation\Response;
 class CardController extends AbstractController
 {
     private CardRepository $cardRepository;
+    private TemplateAttributeResolverInterface $templateAttributeResolver;
+    private RouteRepositoryInterface $routeRepository;
+    private WebspaceManagerInterface $webspaceManager;
 
-    public function __construct(CardRepository $cardRepository)
+    public function __construct(CardRepository $cardRepository, TemplateAttributeResolverInterface $templateAttributeResolver, RouteRepositoryInterface $routeRepository, WebspaceManagerInterface $webspaceManager)
     {
         $this->cardRepository = $cardRepository;
-    }
-
-    /**
-     * @return string[]
-     */
-    public static function getSubscribedServices()
-    {
-        $subscribedServices = parent::getSubscribedServices();
-
-        $subscribedServices['sulu_core.webspace.webspace_manager'] = WebspaceManagerInterface::class;
-        $subscribedServices['sulu.repository.route'] = RouteRepositoryInterface::class;
-        $subscribedServices['sulu_website.resolver.template_attribute'] = TemplateAttributeResolverInterface::class;
-
-        return $subscribedServices;
+        $this->templateAttributeResolver = $templateAttributeResolver;
+        $this->routeRepository = $routeRepository;
+        $this->webspaceManager = $webspaceManager;
     }
 
     /**
@@ -51,14 +43,14 @@ class CardController extends AbstractController
 
             $card->setSeo($seo);
         }
-        $parameters = $this->get('sulu_website.resolver.template_attribute')->resolve([
+        $parameters = $this->templateAttributeResolver->resolve([
             'card' => $card,
             'localizations' => $this->getLocalizationsArrayForEntity($card),
             'sameCategoryCards' => ($relation) ? $this->cardRepository->findWithSameCategory($card->getCategory()->getId(), $card->getId()) : false,
         ]);
 
         if ($partial) {
-            $content = $this->renderBlock(
+            return $this->renderBlock(
                 '@Directory/card.html.twig',
                 'content',
                 $parameters
@@ -86,11 +78,11 @@ class CardController extends AbstractController
      */
     protected function getLocalizationsArrayForEntity(Card $entity): array
     {
-        $routes = $this->get('sulu.repository.route')->findAllByEntity(Card::class, (string) $entity->getId());
+        $routes = $this->routeRepository->findAllByEntity(Card::class, (string) $entity->getId());
 
         $localizations = [];
         foreach ($routes as $route) {
-            $url = $this->get('sulu_core.webspace.webspace_manager')->findUrlByResourceLocator(
+            $url = $this->webspaceManager->findUrlByResourceLocator(
                 $route->getPath(),
                 null,
                 $route->getLocale()
@@ -103,37 +95,6 @@ class CardController extends AbstractController
         }
 
         return $localizations;
-    }
-
-    /**
-     * Returns rendered part of template specified by block.
-     *
-     * @param mixed $template
-     * @param mixed $block
-     * @param mixed $attributes
-     */
-    protected function renderBlock($template, $block, $attributes = []): string
-    {
-        $twig = $this->get('twig');
-        $attributes = $twig->mergeGlobals($attributes);
-
-        $template = $twig->load($template);
-
-        $level = ob_get_level();
-        ob_start();
-
-        try {
-            $rendered = $template->renderBlock($block, $attributes);
-            ob_end_clean();
-
-            return $rendered;
-        } catch (\Exception $e) {
-            while (ob_get_level() > $level) {
-                ob_end_clean();
-            }
-
-            throw $e;
-        }
     }
 
     /**
