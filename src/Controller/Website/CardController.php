@@ -16,8 +16,11 @@ use Symfony\Component\HttpFoundation\Response;
 class CardController extends AbstractController
 {
     private CardRepository $cardRepository;
+
     private TemplateAttributeResolverInterface $templateAttributeResolver;
+
     private RouteRepositoryInterface $routeRepository;
+
     private WebspaceManagerInterface $webspaceManager;
 
     public function __construct(CardRepository $cardRepository, TemplateAttributeResolverInterface $templateAttributeResolver, RouteRepositoryInterface $routeRepository, WebspaceManagerInterface $webspaceManager)
