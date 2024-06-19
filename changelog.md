@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.0 (19/06/2024)
+
++ Compatible Sulu 2.6 et Symfony 6.4
+
 ## 2.4.11 (30/06/2023)
 
 + Compatible Sulu 2.5
