@@ -7,64 +7,43 @@ use JMS\Serializer\Annotation as Serializer;
 use Sulu\Component\Persistence\Model\AuditableInterface;
 use Sulu\Component\Persistence\Model\AuditableTrait;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="directory_card_translation")
- * @ORM\Entity(repositoryClass="Pixel\DirectoryBundle\Repository\CardRepository")
- * @Serializer\ExclusionPolicy("all")
- */
+#[ORM\Entity(repositoryClass: "Pixel\DirectoryBundle\Repository\CardRepository")]
+#[ORM\Table(name: "directory_card_translation")]
+#[Serializer\ExclusionPolicy("all")]
 class CardTranslation implements AuditableInterface
 {
     use AuditableTrait;
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     *
-     * @Serializer\Expose()
-     */
+    #[ORM\Id()]
+    #[ORM\GeneratedValue()]
+    #[ORM\Column(type: "integer")]
+    #[Serializer\Expose()]
     private ?int $id = null;
 
-    /**
-     * @var Card
-     * @ORM\ManyToOne(targetEntity="Pixel\DirectoryBundle\Entity\Card", inversedBy="translations")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $card;
+    #[ORM\ManyToOne(targetEntity: "Pixel\DirectoryBundle\Entity\Card", inversedBy: "translations")]
+    #[ORM\JoinColumn(nullable: true)]
+    private Card $card;
 
-    /**
-     * @ORM\Column(type="string", length=5)
-     */
+    #[ORM\Column(type: "string", length: 5)]
     private string $locale;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @Serializer\Expose()
-     */
+    #[ORM\Column(type: "string", length: 255)]
+    #[Serializer\Expose()]
     private string $name;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     *
-     * @Serializer\Expose()
-     */
+    #[ORM\Column(type: "text", nullable: true)]
+    #[Serializer\Expose()]
     private ?string $description = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @Serializer\Expose()
-     */
+    #[ORM\Column(type: "string", length: 255)]
+    #[Serializer\Expose()]
     private string $routePath;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
-     *
-     * @Serializer\Expose()
      * @var array<mixed>|null
      */
+    #[ORM\Column(type: "json", nullable: true)]
+    #[Serializer\Expose()]
     private ?array $seo = null;
 
     public function __construct(Card $card, string $locale)

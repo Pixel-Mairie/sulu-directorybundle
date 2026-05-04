@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.7.0 (04/05/2026)
+
++ Add reference for Sulu 2.6
++ Migration annotations to attributes for entities
++ Add Sulu 2.6 minimum requirement for composer
+
 ## 2.6.0 (19/06/2024)
 
 + Compatible Sulu 2.6 et Symfony 6.4

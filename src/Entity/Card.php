@@ -10,12 +10,9 @@ use Sulu\Bundle\CategoryBundle\Entity\Category;
 use Sulu\Bundle\CategoryBundle\Entity\CategoryInterface;
 use Sulu\Bundle\MediaBundle\Entity\MediaInterface;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="directory_card")
- * @ORM\Entity(repositoryClass="Pixel\DirectoryBundle\Repository\CardRepository")
- * @Serializer\ExclusionPolicy("all")
- */
+#[ORM\Entity(repositoryClass: "Pixel\DirectoryBundle\Repository\CardRepository")]
+#[ORM\Table(name: "directory_card")]
+#[Serializer\ExclusionPolicy("all")]
 class Card
 {
     public const RESOURCE_KEY = 'cards';
@@ -26,124 +23,93 @@ class Card
 
     public const SECURITY_CONTEXT = 'directory.cars';
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     *
-     * @Serializer\Expose()
-     */
+    #[ORM\Id()]
+    #[ORM\GeneratedValue()]
+    #[ORM\Column(type: "integer")]
+    #[Serializer\Expose()]
     private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=CategoryInterface::class)
-     * @ORM\JoinColumn(nullable=false)
-     * @Serializer\Expose()
-     */
+    #[ORM\ManyToOne(targetEntity: CategoryInterface::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Serializer\Expose()]
     private CategoryInterface $type;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     *
-     * @Serializer\Expose()
-     */
+    #[ORM\Column(type: "boolean", nullable: true)]
+    #[Serializer\Expose()]
     private ?bool $isActive;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
-     *
-     * @Serializer\Expose()
      * @var array<mixed>|null location
      */
+    #[ORM\Column(type: "json", nullable: true)]
+    #[Serializer\Expose()]
     private ?array $location = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=MediaInterface::class)
-     * @ORM\JoinColumn(onDelete="SET NULL")
-     */
+    #[ORM\ManyToOne(targetEntity: MediaInterface::class)]
+    #[ORM\JoinColumn(onDelete: "SET NULL")]
     private ?MediaInterface $logo = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=CategoryInterface::class)
-     * @ORM\JoinColumn(nullable=false)
-     * @Serializer\Expose()
-     */
+    #[ORM\ManyToOne(targetEntity: CategoryInterface::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Serializer\Expose()]
     private CategoryInterface $category;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Serializer\Expose()
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Serializer\Expose()]
     private ?string $url;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Serializer\Expose()
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Serializer\Expose()]
     private ?string $email;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Serializer\Expose()
-     */
+    #[ORM\Column(type: "string", nullable: true)]
+    #[Serializer\Expose()]
     private ?string $phoneNumber;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Serializer\Expose()
-     */
+    #[ORM\Column(type: "string", nullable: true)]
+    #[Serializer\Expose()]
     private ?string $facebook;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Serializer\Expose()
-     */
+    #[ORM\Column(type: "string", nullable: true)]
+    #[Serializer\Expose()]
     private ?string $instagram;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Serializer\Expose()
-     */
+    #[ORM\Column(type: "string", nullable: true)]
+    #[Serializer\Expose()]
     private ?string $twitter;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Serializer\Expose()
-     */
+    #[ORM\Column(type: "string", nullable: true)]
+    #[Serializer\Expose()]
     private ?string $linkedin;
 
     /**
      * @var Collection<string, CardTranslation>
-     * @ORM\OneToMany(targetEntity="Pixel\DirectoryBundle\Entity\CardTranslation", mappedBy="card", cascade={"ALL"}, indexBy="locale")
-     * @Serializer\Exclude
      */
+    #[ORM\OneToMany(targetEntity: "Pixel\DirectoryBundle\Entity\CardTranslation", mappedBy: "card", cascade: ["ALL"], indexBy: "locale")]
+    #[Serializer\Exclude]
     private $translations;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $defaultLocale;
 
     private string $locale = 'fr';
 
     /**
-     * @ORM\Column(type="json", nullable=true)
-     * @Serializer\Expose()
      * @var array<mixed>
      */
+    #[ORM\Column(type: "json", nullable: true)]
+    #[Serializer\Expose()]
     private ?array $pdfs = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Serializer\Expose()
-     */
+    #[ORM\Column(type: "string", nullable: true)]
+    #[Serializer\Expose()]
     private ?string $youtubeId = null;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
-     * @Serializer\Expose()
      * @var array<mixed>
      */
+    #[ORM\Column(type: "json", nullable: true)]
+    #[Serializer\Expose()]
     private ?array $medias;
 
     public function __construct()
@@ -157,9 +123,7 @@ class Card
         return $this->id;
     }
 
-    /**
-     * @Serializer\VirtualProperty(name="name")
-     */
+    #[Serializer\VirtualProperty(name: "name")]
     public function getName(): ?string
     {
         $translation = $this->getTranslation($this->locale);
@@ -194,9 +158,7 @@ class Card
         return $translation;
     }
 
-    /**
-     * @Serializer\VirtualProperty(name="description")
-     */
+    #[Serializer\VirtualProperty(name: "description")]
     public function getDescription(): ?string
     {
         $translation = $this->getTranslation($this->locale);
@@ -226,9 +188,7 @@ class Card
         $this->category = $category;
     }
 
-    /**
-     * @Serializer\VirtualProperty(name="route")
-     */
+    #[Serializer\VirtualProperty(name: "route")]
     public function getRoutePath(): ?string
     {
         $translation = $this->getTranslation($this->locale);
@@ -249,9 +209,9 @@ class Card
     }
 
     /**
-     * @Serializer\VirtualProperty(name="seo")
      * @return array<mixed>|null
      */
+    #[Serializer\VirtualProperty(name: "seo")]
     public function getSeo(): ?array
     {
         $translation = $this->getTranslation($this->locale);
@@ -280,9 +240,9 @@ class Card
     }
 
     /**
-     * @Serializer\VirtualProperty(name="ext")
      * @return array<mixed>|null
      */
+    #[Serializer\VirtualProperty(name: "ext")]
     public function getExt(): ?array
     {
         $translation = $this->getTranslation($this->locale);
@@ -358,10 +318,9 @@ class Card
 
     /**
      * @return array<string, mixed>
-     *
-     * @Serializer\VirtualProperty()
-     * @Serializer\SerializedName("logo")
      */
+    #[Serializer\VirtualProperty()]
+    #[Serializer\SerializedName("logo")]
     public function getLogoData(): ?array
     {
         if ($logo = $this->getLogo()) {

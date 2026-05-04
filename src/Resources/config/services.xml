@@ -3,6 +3,20 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
+        <service id="pixel_directory.card_reference_provider"
+                 class="Pixel\DirectoryBundle\Reference\CardReferenceProvider">
+            <argument type="service" id="sulu_reference.reference_repository"/>
+        </service>
+
+        <service id="pixel_directory.card_reference_refresher"
+                 class="Pixel\DirectoryBundle\Reference\CardReferenceRefresher">
+            <argument type="service" id="pixel_directory.card_reference_provider"/>
+            <argument type="service" id="directory.card_repository"/>
+            <argument type="service" id="sulu_core.webspace.webspace_manager"/>
+            <argument>%sulu.context%</argument>
+            <tag name="sulu_reference.refresher"/>
+        </service>
+
         <service id="pixel_directory.directories_route_controller"
                  class="Pixel\DirectoryBundle\Controller\Admin\CardController"
                  public="true">
@@ -17,6 +31,7 @@
             <argument type="service" id="sulu_trash.trash_manager"/>
             <argument type="service" id="sulu_activity.domain_event_collector"/>
             <argument type="service" id="directory.card_repository"/>
+            <argument type="service" id="pixel_directory.card_reference_provider"/>
             <argument type="service" id="security.token_storage"/>
             <tag name="sulu.context" context="admin"/>
         </service>
@@ -37,6 +52,7 @@
             <argument type="service" id="sulu_security.security_checker"/>
             <argument type="service" id="sulu_core.webspace.webspace_manager"/>
             <argument type="service" id="sulu_activity.activity_list_view_builder_factory"/>
+            <argument type="service" id="sulu_reference.reference_list_view_builder_factory"/>
             <tag name="sulu.admin"/>
             <tag name="sulu.context" context="admin"/>
         </service>
