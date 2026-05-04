@@ -16,6 +16,7 @@ use Pixel\DirectoryBundle\Domain\Event\CardCreatedEvent;
 use Pixel\DirectoryBundle\Domain\Event\CardModifiedEvent;
 use Pixel\DirectoryBundle\Domain\Event\CardRemovedEvent;
 use Pixel\DirectoryBundle\Entity\Card;
+use Pixel\DirectoryBundle\Reference\CardReferenceProvider;
 use Pixel\DirectoryBundle\Repository\CardRepository;
 use Sulu\Bundle\ActivityBundle\Application\Collector\DomainEventCollectorInterface;
 use Sulu\Bundle\CategoryBundle\Category\CategoryManagerInterface;
@@ -65,6 +66,8 @@ class CardController extends AbstractRestController implements ClassResourceInte
 
     private CardRepository $repository;
 
+    private CardReferenceProvider $cardReferenceProvider;
+
     public function __construct(
         DoctrineListRepresentationFactory $doctrineListRepresentationFactory,
         EntityManagerInterface $entityManager,
@@ -77,6 +80,7 @@ class CardController extends AbstractRestController implements ClassResourceInte
         TrashManagerInterface $trashManager,
         DomainEventCollectorInterface $domainEventCollector,
         CardRepository $repository,
+        CardReferenceProvider $cardReferenceProvider,
         ?TokenStorageInterface $tokenStorage = null
     ) {
         $this->doctrineListRepresentationFactory = $doctrineListRepresentationFactory;
@@ -89,6 +93,7 @@ class CardController extends AbstractRestController implements ClassResourceInte
         $this->trashManager = $trashManager;
         $this->domainEventCollector = $domainEventCollector;
         $this->repository = $repository;
+        $this->cardReferenceProvider = $cardReferenceProvider;
 
         parent::__construct($viewHandler, $tokenStorage);
     }
@@ -142,6 +147,7 @@ class CardController extends AbstractRestController implements ClassResourceInte
         );
         $this->entityManager->flush();
         $this->save($item);
+        $this->cardReferenceProvider->updateReferences($item, (string) $this->getLocale($request), 'admin');
 
         return $this->handleView($this->view($item));
     }
@@ -219,6 +225,7 @@ class CardController extends AbstractRestController implements ClassResourceInte
             new CardCreatedEvent($item, $data)
         );
         $this->entityManager->flush();
+        $this->cardReferenceProvider->updateReferences($item, (string) $this->getLocale($request), 'admin');
         return $this->handleView($this->view($item, 201));
     }
 
