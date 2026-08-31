@@ -125,14 +125,22 @@ This bundle comes with settings. To access the bundle settings, go to "Settings 
 
 Here is the list of the different settings:
 * Map centering
+* Map tile appearance
 * Default image
 
 The map centering is very useful if you have a global map showing all the card you registered. With that, you can center your map in order to see all the card in a given area.
 
+The map tile appearance provides three presets:
+* **Warm** (default): an ivory tone close to CARTO Voyager
+* **Neutral**: the original Esri Light Gray appearance
+* **Muted**: a softened, desaturated gray appearance
+
 The default image is helpful when a card has no logo for example.
 
-## Twig extension
-This bundle comes with only one twig function:
+## Twig integration
+### Settings function
+
+This bundle provides the following Twig function:
 
 **directory_settings()**: returns the settings of the bundle. No parameters are required.
 
@@ -143,6 +151,44 @@ Example of use:
     {% set defaultImage = sulu_resolve_media(settings.defaultImage.id, 'fr') %}
 {% endif %}
 ```
+
+The selected map appearance is available through `settings.mapTileFilter`.
+
+### Map tile layer
+
+The bundle provides two Twig fragments for Leaflet maps:
+
+* `@Directory/map/tile-layer-styles.html.twig`: styles for the Warm, Neutral and Muted presets
+* `@Directory/map/tile-layers.js.twig`: Esri Light Gray base and labels layers, with a softened OpenStreetMap fallback
+
+Include the styles after the Leaflet stylesheet:
+
+```twig
+{% block style %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/leaflet.css') }}">
+    {{ include('@Directory/map/tile-layer-styles.html.twig') }}
+{% endblock %}
+```
+
+Then include the tile-layer fragment after creating the Leaflet map. The fragment expects the bundle settings in a
+`settings` variable and the Leaflet map in a `mymap` variable:
+
+```twig
+<script src="{{ asset('assets/js/leaflet/leaflet.js') }}"></script>
+<script>
+    {% set settings = directory_settings() %}
+
+    const lat = {{ settings.location.lat|default(44.4957454) }};
+    const lng = {{ settings.location.long|default(4.7490933) }};
+    const mymap = L.map('map').setView([lat, lng], 14);
+
+    {{ include('@Directory/map/tile-layers.js.twig') }}
+</script>
+```
+
+The appearance preset is applied only to the base tiles. Esri's separate labels layer and Leaflet markers keep their
+original colors and contrast. Esri tiles are limited to their native zoom level 16 and enlarged up to zoom 18.
 
 ## Contributing
 You can contribute to this bundle. The only thing you must do is respect the coding standard we implements.

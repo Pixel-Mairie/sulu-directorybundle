@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.8.0 (31/08/2026)
+
++ Add configurable map tile filters
+- Fix title length for references
+- Fix restoring directory cards
+- Fix deprecation of Sulu 2.6.25
+- Fix PDFs display on card detail
+- Fix h1 for card
+
 ## 2.7.0 (04/05/2026)
 
 + Add reference for Sulu 2.6

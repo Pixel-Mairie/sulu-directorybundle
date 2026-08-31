@@ -23,7 +23,7 @@ class CardReferenceProvider
             Card::RESOURCE_KEY,
             (string) $card->getId(),
             $locale,
-            $card->getName() ?? '',
+            mb_substr($card->getName() ?? '', 0, 191),
             $context,
             ['id' => $card->getId(), 'locale' => $locale],
         );

@@ -26,9 +26,9 @@
                     <div class="w-full border-t border-gray-300"></div>
                 </div>
                 <div class="relative flex justify-start">
-                    <span class="pr-6 bg-white text-2xl uppercase font-light text-gray-900">
+                    <h1 class="pr-6 bg-white text-2xl uppercase font-light text-gray-900">
                       {{ card.name }}
-                    </span>
+                    </h1>
 
                 </div>
             </div>
@@ -130,7 +130,7 @@
                     <div class="prose max-w-none py-12">
                         {{ card.description|raw }}
                     </div>
-                    {% if card.pdfs is not empty %}
+                    {% if card.pdfs['ids'] is defined and card.pdfs['ids'] is not empty %}
                         <h2>Fichiers</h2>
                         <ul>
                             {% for pdf in card.pdfs['ids'] %}

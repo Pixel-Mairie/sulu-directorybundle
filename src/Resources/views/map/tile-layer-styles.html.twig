@@ -1,0 +1,24 @@
+<style>
+    /* Only the base tiles are filtered. Esri's labels and Leaflet markers keep their
+       original colours and contrast. The neutral Esri preset needs no filter. */
+    .leaflet-layer.map-tiles--esri.map-tiles--warm {
+        filter: sepia(.12) saturate(1.1);
+    }
+
+    .leaflet-layer.map-tiles--esri.map-tiles--muted {
+        filter: saturate(.35) brightness(1.06) contrast(.94);
+    }
+
+    /* OSM is more colourful and detailed, so its fallback variants are softened more. */
+    .leaflet-layer.map-tiles--osm.map-tiles--warm {
+        filter: sepia(.12) saturate(.45) brightness(1.06) contrast(.94);
+    }
+
+    .leaflet-layer.map-tiles--osm.map-tiles--neutral {
+        filter: saturate(.65) brightness(1.03) contrast(.97);
+    }
+
+    .leaflet-layer.map-tiles--osm.map-tiles--muted {
+        filter: saturate(.25) brightness(1.07) contrast(.92);
+    }
+</style>

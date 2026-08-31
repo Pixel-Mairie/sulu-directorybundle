@@ -63,6 +63,9 @@ class CardTrashItemHandler implements StoreTrashItemHandlerInterface, RestoreTra
             "location" => $resource->getLocation(),
             "logoId" => $logo ? $logo->getId() : null,
             "categoryId" => $category->getId(),
+            'medias' => $resource->getMedias(),
+            'pdfs' => $resource->getPdfs(),
+            'youtubeId' => $resource->getYoutubeId(),
             "url" => $resource->getUrl(),
             "email" => $resource->getEmail(),
             "phoneNumber" => $resource->getPhoneNumber(),
@@ -101,6 +104,9 @@ class CardTrashItemHandler implements StoreTrashItemHandlerInterface, RestoreTra
             $card->setLogo($this->entityManager->find(MediaInterface::class, $data['logoId']));
         }
         $card->setCategory($this->entityManager->find(CategoryInterface::class, $data['categoryId']));
+        $card->setMedias($data['medias']);
+        $card->setPdfs($data['pdfs']);
+        $card->setYoutubeId($data['youtubeId']);
         $card->setUrl($data['url']);
         $card->setEmail($data['email']);
         $card->setPhoneNumber($data['phoneNumber']);
