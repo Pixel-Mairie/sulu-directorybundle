@@ -62,6 +62,7 @@ class SettingController extends AbstractRestController implements ClassResourceI
         $defaultImageId = $data['defaultImage']['id'] ?? null;
 
         $entity->setLocation($data['location']);
+        $entity->setMapTileFilter($data['mapTileFilter'] ?? Setting::MAP_TILE_FILTER_WARM);
         $entity->setDefaultImage($defaultImageId ? $this->mediaManager->getEntityById($defaultImageId) : null);
     }
 

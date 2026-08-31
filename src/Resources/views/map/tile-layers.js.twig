@@ -1,0 +1,40 @@
+{% set mapTileFilter = settings.mapTileFilter|default('warm') %}
+{% if mapTileFilter not in ['warm', 'neutral', 'muted'] %}
+    {% set mapTileFilter = 'warm' %}
+{% endif %}
+
+// Esri Light Gray Canvas provides a clean base map without an API key. Its labels are kept
+// on a separate, unfiltered layer so street and place names remain sharp.
+const TILES_BASE = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+const TILES_LABELS = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}';
+const TILES_FALLBACK = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const ESRI_OPTIONS = {minZoom: 0, maxNativeZoom: 16, maxZoom: 18};
+const MAP_TILE_FILTER = {{ mapTileFilter|json_encode|raw }};
+
+let baseLayer = L.tileLayer(TILES_BASE, Object.assign({
+    attribution: `Tiles &copy; Esri | &copy; <a href="{{ sulu_content_root_path()|e('js') }}">{{ project_name|e('js') }}</a>`,
+    className: `map-tiles--esri map-tiles--${MAP_TILE_FILTER}`
+}, ESRI_OPTIONS));
+const labelsLayer = L.tileLayer(TILES_LABELS, ESRI_OPTIONS);
+mymap.addLayer(baseLayer);
+mymap.addLayer(labelsLayer);
+
+// Switch to a softened OSM layer if several Esri tiles fail to load.
+let tileFailures = 0;
+baseLayer.on('tileerror', function () {
+    if (++tileFailures < 4) {
+        return;
+    }
+
+    baseLayer.off('tileerror');
+    mymap.removeLayer(baseLayer);
+    mymap.removeLayer(labelsLayer);
+    baseLayer = L.tileLayer(TILES_FALLBACK, {
+        attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | &copy; <a href="{{ sulu_content_root_path()|e('js') }}">{{ project_name|e('js') }}</a>`,
+        className: `map-tiles--osm map-tiles--${MAP_TILE_FILTER}`,
+        minZoom: 0,
+        maxNativeZoom: 19,
+        maxZoom: 20
+    });
+    mymap.addLayer(baseLayer);
+});

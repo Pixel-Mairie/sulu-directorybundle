@@ -10,6 +10,30 @@
                 <title>directory_settings.localisation</title>
             </meta>
         </property>
+        <property name="mapTileFilter" type="single_select" mandatory="true">
+            <meta>
+                <title>directory_settings.mapTileFilter</title>
+            </meta>
+            <params>
+                <param name="values" type="collection">
+                    <param name="warm">
+                        <meta>
+                            <title>directory_settings.mapTileFilter.warm</title>
+                        </meta>
+                    </param>
+                    <param name="neutral">
+                        <meta>
+                            <title>directory_settings.mapTileFilter.neutral</title>
+                        </meta>
+                    </param>
+                    <param name="muted">
+                        <meta>
+                            <title>directory_settings.mapTileFilter.muted</title>
+                        </meta>
+                    </param>
+                </param>
+            </params>
+        </property>
         <property name="defaultImage" type="single_media_selection">
             <meta>
                 <title>directory_settings.defaultImage</title>
